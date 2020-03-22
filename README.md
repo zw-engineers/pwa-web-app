@@ -65,4 +65,77 @@ from the browser.
 - Now [supported in all major browsers](https://caniuse.com/#search=serviceworkers).
 - Most easily developed in Google Chrome with Devtools.
 - At this time (March 2020) the [background sync](https://caniuse.com/#search=syncevent) is 
-not yet supported in other browsers other than Chrome and partly in Egde browsers. 
+not yet supported in other browsers other than Chrome and partly in Egde browsers.
+
+# Register Service Worker
+
+In our `main.js` file we can register our service worker file to be used with 
+our application. The service worker file we created is called `sw_cached_pages.js`
+and it is just a javascript file. However, all of our service worker logic will
+be implemented in that file. But before we do that, we have to register the 
+service worker so that our browser will know that we are using a service worker.
+
+In our `main.js` file we register the service worker as follows:
+
+## Check Service Worker support
+
+Before we register a service worker, it's worth checking if the browser you are 
+using supports service workers otherwise, all the work we will do will be done for
+nothing. 
+
+We can check if our browser support service workers by:
+- Checking the [`navigator`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) object and 
+check if `serviceWorker` exists.
+- Or is `navigator.serviceWorker` exists. 
+ 
+```javascript
+if ('serviceWorker' in navigator) {
+    // Register Service Worker here ...	
+}
+```
+
+or 
+
+```javascript
+if (navigator.serviceWorker) {
+    // Register Service Worker here...
+}
+```
+
+## Register Service Worker
+
+Once we have established that our browser support service workers, we can 
+register our service worker file that will contain all of our service 
+worker logic. 
+
+It is also important to note that we should think about the [web event](https://developer.mozilla.org/en-US/docs/Web/Events)
+we would want to apply our script to register our service worker. In our case
+we would want to apply our script at the [`load`](https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event) event.
+
+To do this we need to apply an [`EventListener`](https://developer.mozilla.org/en-US/docs/Web/API/EventListener) as below:
+
+```javascript
+if ('serviceWorker' in navigator) {
+	window.addEventListener('load', () => {
+            // Apply logic to register service worker here...
+	});
+}
+```
+
+Within our `EventListener`, we can now register our service worker as below:
+```javascript
+if ('serviceWorker' in navigator) {
+	// We want to register service worker when the window loads.
+	window.addEventListener('load', () => {
+		navigator.serviceWorker
+			.register('../sw_cached_pages.js')
+			.then(() => console.log('Service worker is registered.'))
+			.catch(err => console.log(`Service Worker failed to register: ${err}`));
+	});
+}
+```
+
+Note that it is a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) so we can apply logic
+after the promise is [resolved](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve) successfully by using the [`then()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) method.
+Should the promise fail for any reason, we can apply logic after the promise failure
+in the [`catch()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch) method.
