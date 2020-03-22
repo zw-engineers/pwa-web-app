@@ -42,3 +42,27 @@ strategies are applied and executed when the service worker intercepts
 requests. One example could be applying a [network-first strategy](https://developers.google.com/web/tools/workbox/modules/workbox-strategies).
 This strategy is triggered when the service worker intercepts the request
 from the browser.
+
+# Use Cases
+
+- Caching assets & [API](https://www.freecodecamp.org/news/what-is-an-api-in-english-please-b880a3214a82/) calls.
+- Push Notifications ([Push](https://developer.mozilla.org/en-US/docs/Web/API/Push_API) & [Notification](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API) API).
+- Background data sync/preload.
+- Used in progressive web apps.
+
+# Service Worker Lifecycle & Events
+
+- `REGISTER` -> `INSTALL` -> `ACTIVATE`
+- `INSTALL`: Triggers `install` event.
+- `ACTIVATE`: Triggers `activate` event.
+- Service workers can receive message events and functional events such as:
+    - `fetch`
+    - `push` - for example used for push notifications 
+    - `sync` - for the background sync api.
+    
+# Browser Supprt
+
+- Now [supported in all major browsers](https://caniuse.com/#search=serviceworkers).
+- Most easily developed in Google Chrome with Devtools.
+- At this time (March 2020) the [background sync](https://caniuse.com/#search=syncevent) is 
+not yet supported in other browsers other than Chrome and partly in Egde browsers. 
