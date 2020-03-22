@@ -15,6 +15,11 @@
 - A JS script that gets registered with the browser.
 - Stays registered with the browser even when offline.
 - Can load content even with no connection.
+- They cannot directly access the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction).
+- Programmable [network proxy](https://en.wikipedia.org/wiki/Proxy_server).
+- Terminated when not being used.
+- Make use of [`promises`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+- Require [`HTTPS`](https://en.wikipedia.org/wiki/HTTPS) unless you're on `localhost`
 
 ## Normal Request & Response
 
@@ -34,6 +39,6 @@ through the service worker to the browser.
 and decides what to do with the request. There are a few strategies that can
 be applied to service workers and how to deal with requests and so, these 
 strategies are applied and executed when the service worker intercepts
-requests. One example could be applying a [network first strategy](https://developers.google.com/web/tools/workbox/modules/workbox-strategies).
+requests. One example could be applying a [network-first strategy](https://developers.google.com/web/tools/workbox/modules/workbox-strategies).
 This strategy is triggered when the service worker intercepts the request
 from the browser.
