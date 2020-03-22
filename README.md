@@ -28,4 +28,12 @@
 
 - When you have a service worker registered. All requests pass through 
 the service worker to the remote server and the same is for the response
-throught the service worker to the browser.
+through the service worker to the browser.
+
+- The reason for this is that the service worker intercepts the request
+and decides what to do with the request. There are a few strategies that can
+be applied to service workers and how to deal with requests and so, these 
+strategies are applied and executed when the service worker intercepts
+requests. One example could be applying a [network first strategy](https://developers.google.com/web/tools/workbox/modules/workbox-strategies).
+This strategy is triggered when the service worker intercepts the request
+from the browser.
