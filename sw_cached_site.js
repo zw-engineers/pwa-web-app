@@ -1,26 +1,8 @@
-const cacheName = 'v1';
-const cacheAssets = [
-	'index.html',
-	'about.html',
-	'favicon.ico',
-	'/css/style.css',
-	'/js/main.js'
-];
+const cacheName = 'v2';
 
 // Call Install Event
 self.addEventListener('install', (event) => {
 	console.log('Service Worker Installed');
-
-	// Good place to perform caching
-	event.waitUntil(
-		caches
-			.open(cacheName)
-			.then(cache => {
-				console.log('Service Worker: Caching Files');
-				cache.addAll(cacheAssets);
-			})
-			.then(() => self.skipWaiting())
-	);
 });
 
 // Call Activate Event
@@ -50,6 +32,22 @@ self.addEventListener('fetch', (event) => {
 	// Good place to serve our cached files when we are offline
 	console.log('Service Worker: Fetching');
 	event.respondWith(
-		fetch(event.request).catch(() => caches.match(event.request))
+		fetch(event.request)
+			.then(response => {
+				// Make copy/clone of response
+				const responseClone = response.clone();
+				// Open a cache
+				caches
+					.open(cacheName)
+					.then(cache => {
+						// Add response to cache
+						cache.put(event.request, responseClone)
+							.then(response => response);
+					});
+				return response;
+			}).catch(() => {
+			caches.match(event.request)
+				.then(response => response);
+		})
 	);
 });
