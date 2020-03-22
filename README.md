@@ -139,3 +139,31 @@ Note that it is a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScr
 after the promise is [resolved](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve) successfully by using the [`then()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then) method.
 Should the promise fail for any reason, we can apply logic after the promise failure
 in the [`catch()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch) method.
+
+# sw.js
+
+## Service Worker Install Lifecycle
+
+We can apply logic to be executed in the [`install`](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#install) lifecycle of a 
+service worker. We have to apply it in an `eventlistener` of the service worker
+as below:
+
+```javascript
+// Call Install Event
+self.addEventListener('install', (event) => {
+	console.log('Service Worker Installed');
+    // Apply logic here to be executed in the install lifecycle...
+});
+```
+
+## Service Worker Activate Lifecycle
+
+We can also apply logic to be executed in the [`activate`](https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle#activate) lifecycle of a service worker.
+We have to also apply this in an `eventlistener` of the service worker as below:
+
+```javascript
+// Call Activate Event
+self.addEventListener('activate', (event) => {
+	console.log('Service Worker activated');
+});
+```
